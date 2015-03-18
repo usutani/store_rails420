@@ -1,6 +1,6 @@
 <p id="notice"><%= notice %></p>
 
-<%= form_for @search_form, url: products_path, html: { method: :get } do |f| %>
+<%= form_for @search_form, url: products_path(format: :json), html: { method: :get }, remote: true do |f| %>
   <%= f.search_field :q %>
   <%= f.submit '検索' %>
 <% end %>
@@ -18,15 +18,13 @@
   </thead>
 
   <tbody>
-    <% @products.each do |product| %>
-      <tr>
-        <td><%= product.name %></td>
-        <td><%= product.price %></td>
-        <td><%= product.released_on %></td>
-        <td><%= link_to 'Show', product %></td>
-        <td><%= link_to 'Edit', edit_product_path(product) %></td>
-        <td><%= link_to 'Destroy', product, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
+    <%= content_tag_for :tr, @products do |product| %>
+      <td><%= product.name %></td>
+      <td><%= product.price %></td>
+      <td><%= product.released_on %></td>
+      <td><%= link_to 'Show', product %></td>
+      <td><%= link_to 'Edit', edit_product_path(product) %></td>
+      <td><%= link_to 'Destroy', product, method: :delete, data: { confirm: 'Are you sure?' } %></td>
     <% end %>
   </tbody>
 </table>
